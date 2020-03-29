@@ -77,3 +77,37 @@ for (let i = 0; i < 9; i++) {
         }
     }
 }
+
+// saveList will innitially be set to an empty array
+let saveList = [];
+
+// If the user saved anything to the localStorage
+if (JSON.parse(localStorage.getItem('storage')) !== null) {
+    // Then the saveList array will be overwritten by what's in the localStorage
+    saveList = (JSON.parse(localStorage.getItem('storage')));
+
+    // Then this for loop will go in and add the text content back to it's appropriate text area
+    for (let i = 0; i < saveList.length; i++) {
+        $(`#${saveList[i].id}`).text(saveList[i].value);
+    }
+}
+
+// The function will activate when any button on the document is clicked
+$('button').click(function() {
+    // This will grab the id of the textarea within the div of the button and assign it to the variable of id
+    let id = $(this).prev('textarea').attr('id');
+    // This will grab the text content of the textarea within the div of the button and assign it to the variable of value
+    let value = $(this).prev('textarea').val();
+
+    // This variable will grab both the var of id and the var of value and save them as an object with the var name of save
+    let save = {
+        id: id,
+        value: value
+    };
+
+    // Add save to the saveList array
+    saveList.push(save);
+
+    // Then save the array to the user's localStorage
+    localStorage.setItem('storage', JSON.stringify(saveList));
+})
