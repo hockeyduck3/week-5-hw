@@ -64,6 +64,8 @@ for (let i = 0; i < 9; i++) {
         
         // Remove the disabled attribute from the text area so the user can type in it
         $(`#textArea${index}`).removeAttr('disabled');
+        // Remove the disabled attribute from the save button so the user can save what they're typing
+        $(`.saveBtn${index}`).removeAttr('disabled');
         
         // Set the var past to false so any other text area's will have the future class set to them, not the past class.
         past = false;
@@ -83,6 +85,9 @@ for (let i = 0; i < 9; i++) {
             
             // And remove the disabled attribute from the text area so the user can type in it
             $(`#textArea${index}`).removeAttr('disabled');
+
+            // Remove the disabled attribute from the save button so the user can save what they're typing
+            $(`.saveBtn${index}`).removeAttr('disabled');
         }
     }
 }
