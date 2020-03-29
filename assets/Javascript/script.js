@@ -1,7 +1,16 @@
-// This function is so the current date and time will be updated every second
-setInterval(function() {
- $('#currentDay').text(moment().format('dddd') + " " + moment().format('MMMM Do YYYY, h:mm:ss a'));
-}, 1000)
+// Trigger the load function
+load();
+
+function load() {
+    // This line of code will make sure that there's no delay in setting the text content of currentDay
+    // Without this line of code, it would take 2-3 seconds for the text content of currentDay to actually be shown  
+    $('#currentDay').text(moment().format('dddd') + " " + moment().format('MMMM Do YYYY, h:mm:ss a'));
+
+    // This function is so the current date and time will be updated every second
+    setInterval(function() {
+        $('#currentDay').text(moment().format('dddd') + " " + moment().format('MMMM Do YYYY, h:mm:ss a'));
+    }, 1000)
+}
 
 // Index is set to -1 so that way in the for loop below the first index after index++ will be 0
 let index = -1;
@@ -86,9 +95,19 @@ if (JSON.parse(localStorage.getItem('storage')) !== null) {
     // Then the saveList array will be overwritten by what's in the localStorage
     saveList = (JSON.parse(localStorage.getItem('storage')));
 
-    // Then this for loop will go in and add the text content back to it's appropriate text area
-    for (let i = 0; i < saveList.length; i++) {
-        $(`#${saveList[i].id}`).text(saveList[i].value);
+    // This if statement will check and see if the saveList from localStorage is old or not
+    if (moment().format("MMM Do") === saveList[0].date) {
+        // If it's not old then this for loop will go in and add the text content back to it's appropriate text area
+        for (let i = 0; i < saveList.length; i++) {
+            $(`#${saveList[i].id}`).text(saveList[i].value);
+        }
+    } 
+    // If the saveList data from localStorage is old
+    else {
+        // Then this will remove it from the localStorage
+        localStorage.removeItem('storage');
+        // And reset saveList back to an empty array
+        saveList = [];
     }
 }
 
@@ -96,11 +115,16 @@ if (JSON.parse(localStorage.getItem('storage')) !== null) {
 $('button').click(function() {
     // This will grab the id of the textarea within the div of the button and assign it to the variable of id
     let id = $(this).prev('textarea').attr('id');
+    
     // This will grab the text content of the textarea within the div of the button and assign it to the variable of value
     let value = $(this).prev('textarea').val();
 
-    // This variable will grab both the var of id and the var of value and save them as an object with the var name of save
+    // Save the current date to the variable date
+    let date = moment().format("MMM Do");
+
+    // This variable will grab the var's date, id, value, and save them to the object save
     let save = {
+        date: date,
         id: id,
         value: value
     };
