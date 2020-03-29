@@ -115,23 +115,31 @@ if (JSON.parse(localStorage.getItem('storage')) !== null) {
 $('button').click(function() {
     // This will grab the id of the textarea within the div of the button and assign it to the variable of id
     let id = $(this).prev('textarea').attr('id');
-    
+
     // This will grab the text content of the textarea within the div of the button and assign it to the variable of value
     let value = $(this).prev('textarea').val();
 
-    // Save the current date to the variable date
-    let date = moment().format("MMM Do");
+    // Get rid of any empty white space in the value
+    value = $.trim(value);
 
-    // This variable will grab the var's date, id, value, and save them to the object save
-    let save = {
-        date: date,
-        id: id,
-        value: value
-    };
+    // This if statement will check and see if the text content is blank or not
+    if (value === '' || value.match(/[a-z]/i) == null) {
+        return;
+    } else {
+        // Save the current date to the variable date
+        let date = moment().format("MMM Do");
 
-    // Add save to the saveList array
-    saveList.push(save);
+        // This variable will grab the var's date, id, value, and save them to the object save
+        let save = {
+            date: date,
+            id: id,
+            value: value
+        };
 
-    // Then save the array to the user's localStorage
-    localStorage.setItem('storage', JSON.stringify(saveList));
+        // Add save to the saveList array
+        saveList.push(save);
+
+        // Then save the array to the user's localStorage
+        localStorage.setItem('storage', JSON.stringify(saveList));
+    }
 })
