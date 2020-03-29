@@ -57,10 +57,16 @@ textarea{
   color: white;
 }
 
+.btn-primary {
+  border-color: black;
+}
+
 .saveBtn {
   border-left: 1px solid black;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   background-color: #06AED5;
   color: white;
 }
