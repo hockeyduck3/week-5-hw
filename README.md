@@ -1,4 +1,4 @@
-# week-5-hw/Work Day Scheduler
+# Work Day Scheduler/week-5-homework
 
 * This project was my week 5 homework for school
 
