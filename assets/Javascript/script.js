@@ -165,28 +165,28 @@ else {
         case '0':
             past = false;
             break;
-        case '01':
+        case '1':
             past = false;
             break;
-        case '02':
+        case '2':
             past = false;
             break;
-        case '03':
+        case '3':
             past = false;
             break;
-        case '04':
+        case '4':
             past = false;
             break;
-        case '05':
+        case '5':
             past = false;
             break;
-        case '06':
+        case '6':
             past = false;
             break;
-        case '07':
+        case '7':
             past = false;
             break;
-        case '08':
+        case '8':
             past = false;
             break;
         default:
@@ -199,7 +199,7 @@ for (let i = 0; i < 9; i++) {
     index++;
     
     // If the text of time-index is equal to the current hour. 
-    if ($(`#time-${index}`).text() === timeForm || $(`#time-${index}`).text() === `${timeForm}:00`) {
+    if ($(`#time-${index}`).text() === timeForm || $(`#time-${index}`).text() === `${timeForm}:00` || $(`#time-${index}`).text() === `0${timeForm}:00`) {
 
         // Add the class of present to the text area
         $(`#textArea${index}`).addClass('present');
@@ -217,6 +217,8 @@ for (let i = 0; i < 9; i++) {
         if (past) {
             // Then add the class of 'past' to the current text area
             $(`#textArea${index}`).addClass('past');
+            // Then add the disabled attribute to the save button so the user won't be able to click the save button
+            $(`.saveBtn${index}`).attr('disabled', 'disabled');
         } 
         
         // If the var past is equal to false
@@ -227,9 +229,6 @@ for (let i = 0; i < 9; i++) {
             
             // And remove the disabled attribute from the text area so the user can type in it
             $(`#textArea${index}`).removeAttr('disabled');
-
-            // Remove the disabled attribute from the save button so the user can save what they're typing
-            $(`.saveBtn${index}`).removeAttr('disabled');
         }
     }
 }
