@@ -6,11 +6,14 @@ let timeForm;
 if (clockTime == null) {
     // If it's not then set it to local storage
     localStorage.setItem('clock', 12);
+    // And set these two variables to 12 hour format
+    clockTime = 12;
+    timeForm = moment().format('ha');
 } 
 // If it is, then check and see if the user prefered 12 hour format
 else if (clockTime == 12) {
     // If true then set timeForm to 12 hour
-    timeForm = moment().format('ha')
+    timeForm = moment().format('ha');
 }
 // If it is in local storage and the user prefers 24 hour format 
 else {
@@ -121,7 +124,7 @@ function loadText() {
 // If the time is between 12am and 8am, then it will set the var past to false because the previous work day is now finished
 
 // If clockTime is set to 12
-if (clockTime === 12) {
+if (clockTime == 12) {
     // This switch will run
     switch(timeForm) {
         case '12am':
@@ -162,28 +165,28 @@ else {
         case '0':
             past = false;
             break;
-        case '1':
+        case '01':
             past = false;
             break;
-        case '2':
+        case '02':
             past = false;
             break;
-        case '3':
+        case '03':
             past = false;
             break;
-        case '4':
+        case '04':
             past = false;
             break;
-        case '5':
+        case '05':
             past = false;
             break;
-        case '6':
+        case '06':
             past = false;
             break;
-        case '7':
+        case '07':
             past = false;
             break;
-        case '8':
+        case '08':
             past = false;
             break;
         default:
@@ -195,8 +198,8 @@ else {
 for (let i = 0; i < 9; i++) {
     index++;
     
-    // If the text of time-index is equal to the current hour. 'ha' in .format() means hour(h) and am/pm(a) 
-    if ($(`#time-${index}`).text() === timeForm) {
+    // If the text of time-index is equal to the current hour. 
+    if ($(`#time-${index}`).text() === timeForm || $(`#time-${index}`).text() === `${timeForm}:00`) {
 
         // Add the class of present to the text area
         $(`#textArea${index}`).addClass('present');
@@ -266,33 +269,48 @@ $('button').click(function() {
     // Get rid of any empty white space in the value
     value = $.trim(value);
 
-    // This if statement will check and see if the text content is blank or not
-    if (value === '' || value.match(/[a-z]/i) == null) {
-        return;
-    } else {
-        // Save the current date to the variable date
-        let date = moment().format("MMM Do");
+    // Save the current date to the variable date
+    let date = moment().format("MMM Do");
 
-        // This variable will grab the var's date, id, value, and save them to the object save
-        let save = {
-            date: date,
-            id: id,
-            value: value
-        };
+    // This variable will grab the var's date, id, value, and save them to the object save
+    let save = {
+        date: date,
+        id: id,
+        value: value
+    };
 
-        // This quick function will check and see if there already is an entry with the same id in saveList
-        let checkIf = saveList.findIndex((event) => event.id === save.id);
+    // This quick function will check and see if there already is an entry with the same id in saveList
+    let checkIf = saveList.findIndex((event) => event.id === save.id);
 
-        // If there isn't an entry with the same id, then a new one will be made and added
-        if (checkIf === -1) {
+    // If there isn't an entry with the same id, then a new one will be made and added
+    if (checkIf === -1) {
+        // This if statement will check and see if the text content is blank or not
+        if (value === '' || value.match(/[a-z]/i) == null) {
+            // If it is empty, then the code will return nothing and won't save anything to the local storage
+            return;
+        } else {
+            // If value is not empty or just numbers, then the save object will be add to the array saveList.
             saveList.push(save);
         }
-        // If there is an entry with the same id, then that entry will be overwritten
-        else {
+    }
+    // If there is an entry with the same id
+    else {
+        // Check and see if the value is blank, if it's blank then this code acts as a way to delete an entry from the code.
+        if (value === '' || value.match(/[a-z]/i) == null) {
+            // If the value is blank then it will be deleted from the local storage
+            saveList.splice(event, 1)
+        } else {
+            // If the value is not blank, then the value in local storage will be overwritten by the new value.
             saveList[checkIf] = save;
         }
+    }
 
-        // Then save the array to the user's localStorage
-        localStorage.setItem('storage', JSON.stringify(saveList));
+    // Then save the array to the user's localStorage
+    localStorage.setItem('storage', JSON.stringify(saveList));
+
+    // This if statement will check and see if saveList is empty
+    if (saveList[0] == undefined) {
+        // If it is empty, then the array will be deleted from the local storage. This way, it won't cause any issues with the rest of the code.
+        localStorage.removeItem('storage');
     }
 })
