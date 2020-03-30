@@ -141,8 +141,17 @@ $('button').click(function() {
             value: value
         };
 
-        // Add save to the saveList array
-        saveList.push(save);
+        // This quick function will check and see if there already is an entry with the same id in saveList
+        let checkIf = saveList.findIndex((event) => event.id === save.id);
+
+        // If there isn't an entry with the same id, then a new one will be made and added
+        if (checkIf === -1) {
+            saveList.push(save);
+        }
+        // If there is an entry with the same id, then that entry will be overwritten
+        else {
+            saveList[checkIf] = save;
+        }
 
         // Then save the array to the user's localStorage
         localStorage.setItem('storage', JSON.stringify(saveList));
