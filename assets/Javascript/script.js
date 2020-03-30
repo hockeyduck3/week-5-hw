@@ -1,16 +1,71 @@
+// Two new variables for getting the user's time preference from the local storage, and a blank variable that will be used later.
+let clockTime = localStorage.getItem('clock');
+let timeForm;
+
+// Check and see if clockTime is in local storage
+if (clockTime == null) {
+    // If it's not then set it to local storage
+    localStorage.setItem('clock', 12);
+} 
+// If it is, then check and see if the user prefered 12 hour format
+else if (clockTime == 12) {
+    // If true then set timeForm to 12 hour
+    timeForm = moment().format('ha')
+}
+// If it is in local storage and the user prefers 24 hour format 
+else {
+    // Make sure the toggle switch is set to on
+    $('#customSwitch1').prop('checked', true);
+    // Set timeForm to 24 hour
+    timeForm = moment().format('H');
+}
+
+// Function for the toggle switch
+$('#customSwitch1').on('change', function() {
+    // If the switch is set to on
+    if ($(this).prop('checked') === true) {
+        // Change the 'clock' in local storage to 24
+        localStorage.setItem('clock', 24);
+        // Then reload the page
+        location.reload();
+    }
+    // If the switch is set to off
+    else {
+        // Change the 'clock' in local storage to 12
+        localStorage.setItem('clock', 12);
+        // Then reload the page
+        location.reload();
+    }
+})
+
 // Trigger the load function
 load();
 
 function load() {
+    // Set format to a blank variable
+    let format;
+
+    // The user prefers 12 hour format
+    if (clockTime == 12) {
+        // Set format to 12 hour
+        format = 'MMMM Do YYYY, h:mm:ss a';    
+    }
+    // If the user prefers 24 hour format 
+    else {
+        // Set format to 24 hour
+        format = 'MMMM Do YYYY, H:mm:ss'
+    }
+
     // This line of code will make sure that there's no delay in setting the text content of currentDay
     // Without this line of code, it would take 2-3 seconds for the text content of currentDay to actually be shown  
-    $('#currentDay').text(moment().format('dddd') + " " + moment().format('MMMM Do YYYY, h:mm:ss a'));
+    $('#currentDay').text(moment().format('dddd') + " " + moment().format(format));
 
     // This function is so the current date and time will be updated every second
     setInterval(function() {
-        $('#currentDay').text(moment().format('dddd') + " " + moment().format('MMMM Do YYYY, h:mm:ss a'));
+        $('#currentDay').text(moment().format('dddd') + " " + moment().format(format));
     }, 1000)
 }
+
 
 // Index is set to -1 so that way in the for loop below the first index after index++ will be 0
 let index = -1;
@@ -18,38 +73,122 @@ let index = -1;
 // This variable lets the for loop know when to add the class of 'future' to the text area's
 let past = true;
 
+// Trigger the loadText function
+loadText();
+
+// Depending on the user's preferance, this function will set the times to the left of the text area to their appropriate formats.
+function loadText() {
+    // Variables needed for the for loops
+    let textNum = 8;
+    let am_pm = 'am';
+
+    // If the user prefers 12 hour format
+    if (clockTime == 12) {
+        for (let i = 0; i < 9; i++) {
+            index++;
+            textNum++;
+    
+            $(`#time-${index}`).text(`${textNum}${am_pm}`);
+            if (textNum == 11) {
+                am_pm = 'pm';
+            } else if (textNum == 12) {
+                textNum = 0;
+            }
+        }
+    } 
+    // Or if the user prefers 24 hour format
+    else {
+        for (let i = 0; i < 9; i++) {
+            index++;
+            textNum++
+
+            // In 24 hour format, any number before 10 is first met with a 0.
+            // For example, 1am is 01:00 in 24 hour format.
+            if (textNum == 9) {
+                // Make sure the 0 is in front of 9
+                $(`#time-${index}`).text(`0${textNum}:00`);
+            } else {
+                // Take the first 0 out
+                $(`#time-${index}`).text(`${textNum}:00`);
+            }
+        }
+    }
+
+    // Reset the index back to -1 for the other for loops
+    index = -1
+}
 // This switch will check and see if the time is between 12am and 8am
 // If the time is between 12am and 8am, then it will set the var past to false because the previous work day is now finished
-switch(moment().format('ha')) {
-    case '12am':
-        past = false;
-        break;
-    case '1am':
-        past = false;
-        break;
-    case '2am':
-        past = false;
-        break;
-    case '3am':
-        past = false;
-        break;
-    case '4am':
-        past = false;
-        break;
-    case '5am':
-        past = false;
-        break;
-    case '6am':
-        past = false;
-        break;
-    case '7am':
-        past = false;
-        break;
-    case '8am':
-        past = false;
-        break;
-    default:
-        break;
+
+// If clockTime is set to 12
+if (clockTime === 12) {
+    // This switch will run
+    switch(timeForm) {
+        case '12am':
+            past = false;
+            break;
+        case '1am':
+            past = false;
+            break;
+        case '2am':
+            past = false;
+            break;
+        case '3am':
+            past = false;
+            break;
+        case '4am':
+            past = false;
+            break;
+        case '5am':
+            past = false;
+            break;
+        case '6am':
+            past = false;
+            break;
+        case '7am':
+            past = false;
+            break;
+        case '8am':
+            past = false;
+            break;
+        default:
+            break;
+    }
+} 
+// Or if clockTime is set to 24
+else {
+    // Then this switch will run
+    switch(timeForm) {
+        case '0':
+            past = false;
+            break;
+        case '1':
+            past = false;
+            break;
+        case '2':
+            past = false;
+            break;
+        case '3':
+            past = false;
+            break;
+        case '4':
+            past = false;
+            break;
+        case '5':
+            past = false;
+            break;
+        case '6':
+            past = false;
+            break;
+        case '7':
+            past = false;
+            break;
+        case '8':
+            past = false;
+            break;
+        default:
+            break;
+    }
 }
 
 // This for loop will add the proper coloring to text area's
@@ -57,7 +196,7 @@ for (let i = 0; i < 9; i++) {
     index++;
     
     // If the text of time-index is equal to the current hour. 'ha' in .format() means hour(h) and am/pm(a) 
-    if ($(`#time-${index}`).text() === moment().format('ha')) {
+    if ($(`#time-${index}`).text() === timeForm) {
 
         // Add the class of present to the text area
         $(`#textArea${index}`).addClass('present');
