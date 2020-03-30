@@ -76,3 +76,41 @@ textarea{
   background-color: gray;
   border-color: grey;
 }
+
+/* Font-sizing for the '24 hour clock' setting name */
+.custom-control-label {
+  font-size: 23px;
+}
+
+/* Media */
+@media(max-width: 640px) {
+  /* The save button on mobile was not responsive, so this CSS will fix it on mobile */
+  .saveBtn {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    height: 52px;
+    margin-top: 17px;
+    position: absolute;
+    right: 0;
+    width: 65px;
+  }
+
+  /* Also have to adjust the text area size so it doesn't take up the entire width*/
+  .col-sm-10 {
+    margin-bottom: 10px;
+    width: 350px;
+  }
+}
+
+/* iPhone 5/SE */
+@media(max-width: 320px) {
+  /* Change the font-size of 'Work Day Scheduler' to 60px, otherwise it will overflow*/
+  .display-3 {
+    font-size: 60px;
+  }
+
+  /* Set the textarea to a smaller width so that way the text doesn't go underneath the save button */
+  .col-sm-10 {
+    width: 255px;
+  }
+}
