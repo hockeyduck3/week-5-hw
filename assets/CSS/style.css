@@ -69,6 +69,7 @@ textarea{
   border-bottom-left-radius: 0;
   background-color: #06AED5;
   color: white;
+  height: 96%;
   width: 50%;
 }
 
@@ -80,6 +81,11 @@ textarea{
 /* Font-sizing for the '24 hour clock' setting name */
 .custom-control-label {
   font-size: 23px;
+}
+
+/* Added some slight margin to the text area so there's a little bit of a gap between them */
+.col-sm-10 {
+  margin-bottom: 3px;
 }
 
 /* Media */
