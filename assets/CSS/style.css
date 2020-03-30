@@ -4,6 +4,10 @@ body {
   line-height: 1;
 }
 
+.lead {
+  font-weight: 500;
+}
+
 textarea{
   background: transparent;
   border: none;
@@ -98,13 +102,17 @@ textarea{
     margin-top: 17px;
     position: absolute;
     right: 0;
-    width: 65px;
+    width: 15%;
   }
 
   /* Also have to adjust the text area size so it doesn't take up the entire width*/
   .col-sm-10 {
     margin-bottom: 10px;
-    width: 350px;
+    width: 85%;
+  }
+
+  .lead {
+    font-size: 1.5rem;
   }
 }
 
@@ -113,10 +121,5 @@ textarea{
   /* Change the font-size of 'Work Day Scheduler' to 60px, otherwise it will overflow*/
   .display-3 {
     font-size: 60px;
-  }
-
-  /* Set the textarea to a smaller width so that way the text doesn't go underneath the save button */
-  .col-sm-10 {
-    width: 255px;
   }
 }
